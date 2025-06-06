@@ -11,9 +11,16 @@ namespace Final_Game
 
         KeyboardState keyboardState;
 
+        Texture2D beetleup;
+        Texture2D beetledown;
+        Texture2D beetleleft;
+        Texture2D beetleright;
+        Texture2D beetleidle;
         Texture2D beetle;
-        Rectangle beetlerect;
-        Vector2 beetlespeed;
+        Texture2D cavernback;
+
+        Rectangle beetrect;
+        Vector2 beetspeed;
 
         public Game1()
         {
@@ -25,14 +32,8 @@ namespace Final_Game
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
-            _graphics.PreferredBackBufferWidth = 800;
-            _graphics.PreferredBackBufferHeight = 500;
-
-            _graphics.ApplyChanges();
-
-            beetlerect = new Rectangle(10, 10, 75, 75);
-
+            beetrect = new Rectangle(10, 10, 56, 56);
+            beetspeed = new Vector2();
             base.Initialize();
         }
 
@@ -41,41 +42,65 @@ namespace Final_Game
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            cavernback = Content.Load<Texture2D>("cavern");
 
-            beetle = Content.Load<Texture2D>("beetleright");
+            beetledown = Content.Load<Texture2D>("beetledown");
+            beetleup = Content.Load<Texture2D>("beetleup");
+            beetleleft = Content.Load<Texture2D>("beetleleft");
+            beetleright = Content.Load<Texture2D>("beetleright");
+            beetleidle = Content.Load<Texture2D>("beetleright");
+            beetle = beetleidle;
         }
 
         protected override void Update(GameTime gameTime)
         {
+            keyboardState = Keyboard.GetState();
+            beetspeed.X = 0;
+            beetspeed.Y = 0;
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-
-            keyboardState = Keyboard.GetState();
-
-            beetlespeed = new Vector2();
-
-            beetlerect.Offset(beetlespeed);
-
-            beetlespeed = Vector2.Zero;
             if (keyboardState.IsKeyDown(Keys.Up))
             {
-                beetlespeed.Y -= 2;
+                beetrect.Height = 64;
+                beetrect.Width = 56;
+                beetle = beetleup;
+                beetspeed.Y -= 2;
             }
             if (keyboardState.IsKeyDown(Keys.Down))
             {
-                beetlespeed.Y += 2;
+                beetrect.Height = 64;
+                beetrect.Width = 56;
+                beetle = beetledown;
+                beetspeed.Y += 2;
             }
             if (keyboardState.IsKeyDown(Keys.Left))
             {
-                beetlespeed.X += 2;
+                beetrect.Width = 64;
+                beetrect.Height = 56;
+                beetle = beetleleft;
+                beetspeed.X -= 2;
             }
-
             if (keyboardState.IsKeyDown(Keys.Right))
             {
-                beetlespeed.X += 2;
+                beetrect.Width = 64;
+                beetrect.Height = 56;
+                beetle = beetleright;
+                beetspeed.X += 2;
             }
+
+            beetrect.X += (int)beetspeed.X;
+            beetrect.Y += (int)beetspeed.Y;
+
+            // If pacman is not moving make him sleep
+            if (!keyboardState.IsKeyDown(Keys.Up) && !keyboardState.IsKeyDown(Keys.Right) && !keyboardState.IsKeyDown(Keys.Left) && !keyboardState.IsKeyDown(Keys.Down))
+            {
+                
+            }
+
+            // TODO: Add your update logic here
+
             base.Update(gameTime);
         }
 
@@ -84,8 +109,14 @@ namespace Final_Game
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
             _spriteBatch.Begin();
+
+            _spriteBatch.Draw(cavernback, new Rectangle(0, 0, 800, 500), Color.White);
+
+            _spriteBatch.Draw(beetle, beetrect, Color.White);
+
+
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }
