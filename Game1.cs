@@ -22,6 +22,16 @@ namespace Final_Game
         Rectangle beetrect;
         Vector2 beetspeed;
 
+        enum Screen
+        {
+            Menu,
+            Start,
+            L1,
+            L2,
+        }
+        Screen screen;
+        MouseState mouseState;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -32,7 +42,13 @@ namespace Final_Game
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            beetrect = new Rectangle(10, 10, 56, 56);
+            _graphics.PreferredBackBufferWidth = 800;
+            _graphics.PreferredBackBufferHeight = 500;
+            _graphics.ApplyChanges();
+
+            screen = Screen.Menu;
+
+            beetrect = new Rectangle(10, 10, 50, 50);
             beetspeed = new Vector2();
             base.Initialize();
         }
@@ -63,29 +79,29 @@ namespace Final_Game
 
             if (keyboardState.IsKeyDown(Keys.Up))
             {
-                beetrect.Height = 64;
-                beetrect.Width = 56;
+                beetrect.Height = 58;
+                beetrect.Width = 50;
                 beetle = beetleup;
                 beetspeed.Y -= 2;
             }
             if (keyboardState.IsKeyDown(Keys.Down))
             {
-                beetrect.Height = 64;
-                beetrect.Width = 56;
+                beetrect.Height = 58;
+                beetrect.Width = 50;
                 beetle = beetledown;
                 beetspeed.Y += 2;
             }
             if (keyboardState.IsKeyDown(Keys.Left))
             {
-                beetrect.Width = 64;
-                beetrect.Height = 56;
+                beetrect.Width = 58;
+                beetrect.Height = 50;
                 beetle = beetleleft;
                 beetspeed.X -= 2;
             }
             if (keyboardState.IsKeyDown(Keys.Right))
             {
-                beetrect.Width = 64;
-                beetrect.Height = 56;
+                beetrect.Width = 58;
+                beetrect.Height = 50;
                 beetle = beetleright;
                 beetspeed.X += 2;
             }
