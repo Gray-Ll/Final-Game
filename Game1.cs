@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 namespace Final_Game
 {
@@ -11,12 +12,15 @@ namespace Final_Game
 
         KeyboardState keyboardState;
 
+        Song menuMusic;
+
         Texture2D beetleup;
         Texture2D beetledown;
         Texture2D beetleleft;
         Texture2D beetleright;
         Texture2D beetleidle;
         Texture2D beetle;
+
         Texture2D cavernback;
 
         Rectangle beetrect;
@@ -58,6 +62,8 @@ namespace Final_Game
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            menuMusic = Content.Load<Song>("menuMusic");
+
             cavernback = Content.Load<Texture2D>("cavern");
 
             beetledown = Content.Load<Texture2D>("beetledown");
@@ -127,6 +133,24 @@ namespace Final_Game
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
 
+            if (screen == Screen.Menu)
+            {
+                
+            }
+            else if (screen == Screen.Start)
+            {
+                _spriteBatch.Draw(cavernback, new Rectangle(0, 0, 800, 500), Color.White);
+
+                _spriteBatch.Draw(beetle, beetrect, Color.White);
+            }
+            else if (screen == Screen.L1)
+            {
+                
+            }
+            else if (screen == Screen.L2)
+            {
+                
+            }
             _spriteBatch.Draw(cavernback, new Rectangle(0, 0, 800, 500), Color.White);
 
             _spriteBatch.Draw(beetle, beetrect, Color.White);
