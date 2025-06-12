@@ -21,6 +21,11 @@ namespace Final_Game
         Texture2D beetleidle;
         Texture2D beetle;
 
+        Texture2D dirt;
+        Rectangle dirtrect;
+        Texture2D shale;
+        Rectangle shalerect;
+
         Texture2D cavernback;
 
         Rectangle beetrect;
@@ -54,6 +59,8 @@ namespace Final_Game
 
             beetrect = new Rectangle(10, 10, 50, 50);
             beetspeed = new Vector2();
+
+            dirtrect = new Rectangle(100, 100, 200, 50);
             base.Initialize();
         }
 
@@ -65,6 +72,9 @@ namespace Final_Game
             menuMusic = Content.Load<Song>("menuMusic");
 
             cavernback = Content.Load<Texture2D>("cavern");
+
+            shale = Content.Load<Texture2D>("Shale");
+            dirt = Content.Load<Texture2D>("dirt");
 
             beetledown = Content.Load<Texture2D>("beetledown");
             beetleup = Content.Load<Texture2D>("beetleup");
@@ -128,14 +138,18 @@ namespace Final_Game
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
 
             if (screen == Screen.Menu)
             {
-                
+                _spriteBatch.Draw(cavernback, new Rectangle(0, 0, 800, 500), Color.White);
+
+                _spriteBatch.Draw(dirt, dirtrect, Color.White);
+                _spriteBatch.Draw(dirt, new Rectangle(100, 400, 200, 50), Color.White);
+                _spriteBatch.Draw(beetle, beetrect, Color.White);
             }
             else if (screen == Screen.Start)
             {
@@ -151,10 +165,6 @@ namespace Final_Game
             {
                 
             }
-            _spriteBatch.Draw(cavernback, new Rectangle(0, 0, 800, 500), Color.White);
-
-            _spriteBatch.Draw(beetle, beetrect, Color.White);
-
 
             _spriteBatch.End();
 
