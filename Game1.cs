@@ -122,6 +122,15 @@ namespace Final_Game
                 beetspeed.X += 2;
             }
 
+            if (screen == Screen.Menu)
+            {
+                if (MediaPlayer.State == MediaState.Stopped)
+                {
+                    MediaPlayer.Play(menuMusic);
+                }
+
+            }
+
             beetrect.X += (int)beetspeed.X;
             beetrect.Y += (int)beetspeed.Y;
 
@@ -165,6 +174,16 @@ namespace Final_Game
             {
                 
             }
+
+
+            _spriteBatch.Draw(beetle, beetrect, Color.White);
+
+
+            _spriteBatch.Draw(beetle, beetrect, Color.White);
+
+
+            _spriteBatch.Draw(beetle, beetrect, Color.White);
+
 
             _spriteBatch.End();
 
