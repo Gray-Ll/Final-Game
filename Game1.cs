@@ -11,25 +11,42 @@ namespace Final_Game
         private SpriteBatch _spriteBatch;
 
         KeyboardState keyboardState;
+        MouseState mouseState;
 
         Song menuMusic;
 
+        //Main Character
         Texture2D beetleup;
         Texture2D beetledown;
         Texture2D beetleleft;
         Texture2D beetleright;
         Texture2D beetleidle;
+        Rectangle beetrect;
+        Vector2 beetspeed;
         Texture2D beetle;
 
+        //Enemy
+        Texture2D mbeetle;
+        Texture2D mbeetledown1;
+        Texture2D mbeetledown2;
+        Rectangle mbeetrect;
+        Vector2 mbeetspeed;
+
+        //Environment
         Texture2D dirt;
         Rectangle dirtrect;
         Texture2D shale;
         Rectangle shalerect;
 
+        //Button
+        Rectangle Play;
+        Rectangle Tutorial;
+        Rectangle Settings;
+        Rectangle Controls;
+
+        //Background
         Texture2D cavernback;
 
-        Rectangle beetrect;
-        Vector2 beetspeed;
 
         enum Screen
         {
@@ -39,7 +56,6 @@ namespace Final_Game
             L2,
         }
         Screen screen;
-        MouseState mouseState;
 
         public Game1()
         {
@@ -59,8 +75,9 @@ namespace Final_Game
 
             beetrect = new Rectangle(10, 10, 50, 50);
             beetspeed = new Vector2();
+            mbeetrect = new Rectangle(100, 20, 10, 35);
+            mbeetspeed = new Vector2();
 
-            dirtrect = new Rectangle(100, 100, 200, 50);
             base.Initialize();
         }
 
@@ -82,13 +99,19 @@ namespace Final_Game
             beetleright = Content.Load<Texture2D>("beetleright");
             beetleidle = Content.Load<Texture2D>("beetleright");
             beetle = beetleidle;
+
+            mbeetle = Content.Load<Texture2D>("mbeetledown1");
+            mbeetledown1 = Content.Load<Texture2D>("mbeetledown1");
         }
 
         protected override void Update(GameTime gameTime)
         {
             keyboardState = Keyboard.GetState();
+            mouseState = Mouse.GetState();
+
             beetspeed.X = 0;
             beetspeed.Y = 0;
+
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
@@ -128,11 +151,21 @@ namespace Final_Game
                 {
                     MediaPlayer.Play(menuMusic);
                 }
+                mbeetrect.Width = 50;
+                mbeetrect.Height = 52;
+                mbeetle = mbeetledown1;
 
+                if (mbeetrect.Bottom >= 200)
+                {
+                    mbeetspeed = new Vector2(7, 0);
+                }
             }
 
             beetrect.X += (int)beetspeed.X;
             beetrect.Y += (int)beetspeed.Y;
+
+            mbeetrect.X += (int)mbeetspeed.X;
+            mbeetrect.Y += (int)mbeetspeed.Y;
 
             // If pacman is not moving make him sleep
             if (!keyboardState.IsKeyDown(Keys.Up) && !keyboardState.IsKeyDown(Keys.Right) && !keyboardState.IsKeyDown(Keys.Left) && !keyboardState.IsKeyDown(Keys.Down))
@@ -156,9 +189,10 @@ namespace Final_Game
             {
                 _spriteBatch.Draw(cavernback, new Rectangle(0, 0, 800, 500), Color.White);
 
-                _spriteBatch.Draw(dirt, dirtrect, Color.White);
-                _spriteBatch.Draw(dirt, new Rectangle(100, 400, 200, 50), Color.White);
+                _spriteBatch.Draw(shale, new Rectangle(200, 100, 400, 50), Color.White);
+                _spriteBatch.Draw(shale, new Rectangle(200, 400, 400, 50), Color.White);
                 _spriteBatch.Draw(beetle, beetrect, Color.White);
+                _spriteBatch.Draw(mbeetledown1, mbeetrect, Color.White);
             }
             else if (screen == Screen.Start)
             {

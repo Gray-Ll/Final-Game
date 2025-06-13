@@ -88,6 +88,18 @@
 #begin mainFont.ttf
 /copy:mainFont.ttf
 
+#begin mbeetledown1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:mbeetledown1.png
+
 #begin menuMusic.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
