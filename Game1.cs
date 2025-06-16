@@ -51,6 +51,7 @@ namespace Final_Game
 
         //Background
         Texture2D cavernback;
+        Texture2D tutmap;
 
 
         enum Screen
@@ -78,15 +79,16 @@ namespace Final_Game
 
             screen = Screen.Menu;
 
-            beetrect = new Rectangle(10, 10, 50, 50);
+            beetrect = new Rectangle(100, 250, 50, 50);
             beetspeed = new Vector2();
-            mbeetrect = new Rectangle(100, 20, 10, 35);
+
+            mbeetrect = new Rectangle(300, 200, 10, 35);
             mbeetspeed = new Vector2();
 
-            Playrect = new Rectangle(275, 350, 200, 75);
-            Tutorialrect = new Rectangle(500, 260, 200, 50);
-            Optionsrect = new Rectangle(300, 320, 200, 50);
-            Controlsrect = new Rectangle(300, 380, 200, 50);
+            Playrect = new Rectangle(550, 125, 200, 75);
+            Tutorialrect = new Rectangle(530, 220, 220, 75);
+            Optionsrect = new Rectangle(540, 315, 210, 75);
+            Controlsrect = new Rectangle(540, 390, 210, 75);
 
             base.Initialize();
         }
@@ -98,11 +100,6 @@ namespace Final_Game
             // TODO: use this.Content to load your game content here
             menuMusic = Content.Load<Song>("menuMusic");
 
-            cavernback = Content.Load<Texture2D>("cavern");
-
-            shale = Content.Load<Texture2D>("Shale");
-            dirt = Content.Load<Texture2D>("dirt");
-
             beetledown = Content.Load<Texture2D>("beetledown");
             beetleup = Content.Load<Texture2D>("beetleup");
             beetleleft = Content.Load<Texture2D>("beetleleft");
@@ -113,10 +110,16 @@ namespace Final_Game
             mbeetle = Content.Load<Texture2D>("mbeetledown1");
             mbeetledown1 = Content.Load<Texture2D>("mbeetledown1");
 
+            shale = Content.Load<Texture2D>("Shale");
+            dirt = Content.Load<Texture2D>("dirt");
+
             Play = Content.Load<Texture2D>("play");
             Tutorial = Content.Load<Texture2D>("tutorial");
             Options = Content.Load<Texture2D>("options");
-            //Controls = Content.Load<Texture2D>("controls");
+            Controls = Content.Load<Texture2D>("controls");
+
+            cavernback = Content.Load<Texture2D>("cavern");
+            tutmap = Content.Load<Texture2D>("tutmap");
         }
 
         protected override void Update(GameTime gameTime)
@@ -178,7 +181,7 @@ namespace Final_Game
             if (mouseState.LeftButton == ButtonState.Pressed &&
                     prevMouseState.LeftButton == ButtonState.Released)
             {
-                if (Playrect.Contains(mouseState.Position))
+                if (Tutorialrect.Contains(mouseState.Position))
                 {
                     screen = Screen.Start;
                     if (mouseState.LeftButton == ButtonState.Pressed &&
@@ -187,6 +190,22 @@ namespace Final_Game
                         if (Optionsrect.Contains(mouseState.Position))
                         {
                             screen = Screen.L1;
+                        }
+                    }
+                }
+            }
+            if (mouseState.LeftButton == ButtonState.Pressed &&
+                    prevMouseState.LeftButton == ButtonState.Released)
+            {
+                if (Playrect.Contains(mouseState.Position))
+                {
+                    screen = Screen.L1;
+                    if (mouseState.LeftButton == ButtonState.Pressed &&
+                    prevMouseState.LeftButton == ButtonState.Released)
+                    {
+                        if (Optionsrect.Contains(mouseState.Position))
+                        {
+                            screen = Screen.L2;
                         }
                     }
                 }
@@ -211,7 +230,7 @@ namespace Final_Game
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.White);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
@@ -219,22 +238,24 @@ namespace Final_Game
             if (screen == Screen.Menu)
             {
                 _spriteBatch.Draw(Play, Playrect, Color.White);
-
-
-
+                _spriteBatch.Draw(Tutorial, Tutorialrect, Color.White);
+                _spriteBatch.Draw(Options, Optionsrect, Color.White);
+                _spriteBatch.Draw(Controls, Controlsrect, Color.White);
             }
             else if (screen == Screen.Start)
             {
-                _spriteBatch.Draw(cavernback, new Rectangle(0, 0, 800, 500), Color.White);
+                _spriteBatch.Draw(tutmap, new Rectangle(0, 0, 800, 500), Color.White);
 
-                _spriteBatch.Draw(shale, new Rectangle(200, 100, 400, 50), Color.White);
-                _spriteBatch.Draw(shale, new Rectangle(200, 400, 400, 50), Color.White);
                 _spriteBatch.Draw(beetle, beetrect, Color.White);
-                _spriteBatch.Draw(mbeetledown1, mbeetrect, Color.White);
             }
             else if (screen == Screen.L1)
             {
-                
+                _spriteBatch.Draw(cavernback, new Rectangle(0, 0, 800, 500), Color.White);
+
+                _spriteBatch.Draw(shale, new Rectangle(300, 50, 400, 50), Color.White);
+                _spriteBatch.Draw(shale, new Rectangle(300, 400, 400, 50), Color.White);
+                _spriteBatch.Draw(beetle, beetrect, Color.White);
+                _spriteBatch.Draw(mbeetledown1, mbeetrect, Color.White);
             }
             else if (screen == Screen.L2)
             {

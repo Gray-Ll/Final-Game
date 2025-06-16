@@ -73,6 +73,18 @@
 /processorParam:TextureFormat=Color
 /build:cavern.png
 
+#begin controls.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:controls.png
+
 #begin dirt.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -141,6 +153,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Shale.png
+
+#begin tutmap.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:tutmap.png
 
 #begin tutorial.png
 /importer:TextureImporter
