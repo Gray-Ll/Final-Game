@@ -12,6 +12,7 @@ namespace Final_Game
 
         KeyboardState keyboardState;
         MouseState mouseState;
+        MouseState prevMouseState;
 
         Song menuMusic;
 
@@ -39,10 +40,14 @@ namespace Final_Game
         Rectangle shalerect;
 
         //Button
-        Rectangle Play;
-        Rectangle Tutorial;
-        Rectangle Settings;
-        Rectangle Controls;
+        Rectangle Playrect;
+        Texture2D Play;
+        Rectangle Tutorialrect;
+        Texture2D Tutorial;
+        Rectangle Optionsrect;
+        Texture2D Options;
+        Rectangle Controlsrect;
+        Texture2D Controls;
 
         //Background
         Texture2D cavernback;
@@ -78,6 +83,11 @@ namespace Final_Game
             mbeetrect = new Rectangle(100, 20, 10, 35);
             mbeetspeed = new Vector2();
 
+            Playrect = new Rectangle(275, 350, 200, 75);
+            Tutorialrect = new Rectangle(500, 260, 200, 50);
+            Optionsrect = new Rectangle(300, 320, 200, 50);
+            Controlsrect = new Rectangle(300, 380, 200, 50);
+
             base.Initialize();
         }
 
@@ -102,6 +112,11 @@ namespace Final_Game
 
             mbeetle = Content.Load<Texture2D>("mbeetledown1");
             mbeetledown1 = Content.Load<Texture2D>("mbeetledown1");
+
+            Play = Content.Load<Texture2D>("play");
+            Tutorial = Content.Load<Texture2D>("tutorial");
+            Options = Content.Load<Texture2D>("options");
+            //Controls = Content.Load<Texture2D>("controls");
         }
 
         protected override void Update(GameTime gameTime)
@@ -160,6 +175,22 @@ namespace Final_Game
                     mbeetspeed = new Vector2(7, 0);
                 }
             }
+            if (mouseState.LeftButton == ButtonState.Pressed &&
+                    prevMouseState.LeftButton == ButtonState.Released)
+            {
+                if (Playrect.Contains(mouseState.Position))
+                {
+                    screen = Screen.Start;
+                    if (mouseState.LeftButton == ButtonState.Pressed &&
+                    prevMouseState.LeftButton == ButtonState.Released)
+                    {
+                        if (Optionsrect.Contains(mouseState.Position))
+                        {
+                            screen = Screen.L1;
+                        }
+                    }
+                }
+            }
 
             beetrect.X += (int)beetspeed.X;
             beetrect.Y += (int)beetspeed.Y;
@@ -180,12 +211,19 @@ namespace Final_Game
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(Color.White);
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
 
             if (screen == Screen.Menu)
+            {
+                _spriteBatch.Draw(Play, Playrect, Color.White);
+
+
+
+            }
+            else if (screen == Screen.Start)
             {
                 _spriteBatch.Draw(cavernback, new Rectangle(0, 0, 800, 500), Color.White);
 
@@ -193,12 +231,6 @@ namespace Final_Game
                 _spriteBatch.Draw(shale, new Rectangle(200, 400, 400, 50), Color.White);
                 _spriteBatch.Draw(beetle, beetrect, Color.White);
                 _spriteBatch.Draw(mbeetledown1, mbeetrect, Color.White);
-            }
-            else if (screen == Screen.Start)
-            {
-                _spriteBatch.Draw(cavernback, new Rectangle(0, 0, 800, 500), Color.White);
-
-                _spriteBatch.Draw(beetle, beetrect, Color.White);
             }
             else if (screen == Screen.L1)
             {
@@ -208,15 +240,6 @@ namespace Final_Game
             {
                 
             }
-
-
-            _spriteBatch.Draw(beetle, beetrect, Color.White);
-
-
-            _spriteBatch.Draw(beetle, beetrect, Color.White);
-
-
-            _spriteBatch.Draw(beetle, beetrect, Color.White);
 
 
             _spriteBatch.End();
