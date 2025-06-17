@@ -55,6 +55,7 @@ namespace Final_Game
         Texture2D cavernback;
         Texture2D tutmap;
         Rectangle t;
+        Rectangle rect1;
 
 
         enum Screen
