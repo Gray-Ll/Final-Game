@@ -85,6 +85,9 @@
 /processorParam:TextureFormat=Color
 /build:controls.png
 
+#begin deathText.spritefont
+/copy:deathText.spritefont
+
 #begin dirt.png
 /importer:TextureImporter
 /processor:TextureProcessor
