@@ -97,8 +97,8 @@ namespace Final_Game
 
             screen = Screen.Menu;
 
-            beetrect = new Rectangle(200, 210, 58, 50);
             beetspeed = new Vector2();
+            beetrect = new Rectangle(200, 210, 58, 50);
 
             mbeetrect = new Rectangle(600, -50, 10, 35);
             mbeetrect2 = new Rectangle(300, -250, 10, 35);
@@ -157,7 +157,7 @@ namespace Final_Game
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
+            //Movement
             if (keyboardState.IsKeyDown(Keys.Up))
             {
                 beetrect.Height = 58;
@@ -194,6 +194,7 @@ namespace Final_Game
                     MediaPlayer.Play(menuMusic);
                 }
             }
+            //Play Screen
             if (screen == Screen.L1)
             {
                 MediaState state = MediaPlayer.State;
@@ -201,6 +202,7 @@ namespace Final_Game
                 {
                     MediaPlayer.Play(gameAmb);
                 }
+                beetrect.Location = new Point(200, 210);
 
                 dirtrect = new Rectangle(0, 0, 0, 0);
 
@@ -232,12 +234,13 @@ namespace Final_Game
                 shalerects.Add(new Rectangle(300, 70, 50, 430));
                 shalerects.Add(new Rectangle(600, 0, 50, 430));
             }
+            //Death Screen
             if (screen == Screen.Death)
             {
                 MediaPlayer.Stop();
                 
             }
-
+            //Enemy Intersection
             if (beetrect.Intersects(dirtrect))
             {
                 screen = Screen.Menu;
@@ -282,7 +285,7 @@ namespace Final_Game
                 }
             }
 
-
+            //Buttons
             if (mouseState.LeftButton == ButtonState.Pressed &&
                     prevMouseState.LeftButton == ButtonState.Released)
             {
