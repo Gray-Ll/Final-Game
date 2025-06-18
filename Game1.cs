@@ -203,7 +203,6 @@ namespace Final_Game
                 {
                     MediaPlayer.Play(gameAmb);
                 }
-                beetrect.Location = new Point(200, 210);
 
                 dirtrect = new Rectangle(0, 0, 0, 0);
 
@@ -308,6 +307,8 @@ namespace Final_Game
             {
                 if (Playrect.Contains(mouseState.Position))
                 {
+                    beetrect.Location = new Point(200, 210);
+
                     screen = Screen.L1;
                     if (mouseState.LeftButton == ButtonState.Pressed &&
                     prevMouseState.LeftButton == ButtonState.Released)
