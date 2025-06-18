@@ -257,31 +257,26 @@ namespace Final_Game
                 screen = Screen.Menu;
             }
 
-            //C
-            // Store the original position
+            //Barrier Col
             var originalPosition = beetrect.Location;
 
-            // Move on X axis
             beetrect.X += (int)beetspeed.X;
             bool collidedX = false;
             foreach (Rectangle shalerect in shalerects)
             {
                 if (beetrect.Intersects(shalerect))
                 {
-                    // Undo X movement if collision
                     beetrect.X = originalPosition.X;
                     collidedX = true;
                     break;
                 }
             }
-
-            // Move on Y axis
+            //Barrier Col
             beetrect.Y += (int)beetspeed.Y;
             foreach (Rectangle shalerect in shalerects)
             {
                 if (beetrect.Intersects(shalerect))
                 {
-                    // Undo Y movement if collision
                     beetrect.Y = originalPosition.Y;
                     break;
                 }
