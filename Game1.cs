@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
@@ -17,6 +18,8 @@ namespace Final_Game
         MouseState prevMouseState;
 
         Song menuMusic;
+        Song gameAmb;
+        SoundEffect hit;
 
         //Main Character
         Texture2D beetleup;
@@ -33,12 +36,17 @@ namespace Final_Game
         Texture2D mbeetledown1;
         Texture2D mbeetledown2;
         Rectangle mbeetrect;
+        Rectangle mbeetrect2;
         Vector2 mbeetspeed;
+        Vector2 mbeetspeed2;
+        List<Rectangle> mbeetles = new List<Rectangle>();
 
         //Environment
         Texture2D dirt;
         Rectangle dirtrect;
         Texture2D shale;
+        Texture2D tpRock;
+        Rectangle tpRockr;
         List<Rectangle> shalerects = new List<Rectangle>();
 
         //Button
@@ -51,10 +59,12 @@ namespace Final_Game
         Rectangle Controlsrect;
         Texture2D Controls;
 
+        Rectangle tutControls;
+
         //Background
         Texture2D cavernback;
         Texture2D tutmap;
-        Rectangle t;
+        Rectangle tutTunnel;
         Rectangle rect1;
 
 
@@ -82,13 +92,18 @@ namespace Final_Game
             _graphics.PreferredBackBufferHeight = 500;
             _graphics.ApplyChanges();
 
+            dirtrect = new Rectangle(325, 60, 1, 1);
+            tpRockr = new Rectangle(760, 450, 40, 40);
+
             screen = Screen.Menu;
 
             beetrect = new Rectangle(100, 250, 50, 50);
             beetspeed = new Vector2();
 
-            mbeetrect = new Rectangle(350, 50, 10, 35);
+            mbeetrect = new Rectangle(600, -50, 10, 35);
+            mbeetrect2 = new Rectangle(300, -150, 10, 35);
             mbeetspeed = new Vector2();
+            mbeetspeed2 = new Vector2();
 
             Playrect = new Rectangle(550, 125, 200, 75);
             Tutorialrect = new Rectangle(530, 220, 220, 75);
@@ -105,6 +120,8 @@ namespace Final_Game
 
             // TODO: use this.Content to load your game content here
             menuMusic = Content.Load<Song>("menuMusic");
+            gameAmb = Content.Load<Song>("gameAmb");
+            hit = Content.Load<SoundEffect>("hit");
 
             beetledown = Content.Load<Texture2D>("beetledown");
             beetleup = Content.Load<Texture2D>("beetleup");
@@ -116,6 +133,7 @@ namespace Final_Game
             mbeetle = Content.Load<Texture2D>("mbeetledown1");
             mbeetledown1 = Content.Load<Texture2D>("mbeetledown1");
 
+            tpRock = Content.Load<Texture2D>("tpRock");
             shale = Content.Load<Texture2D>("Shale");
             dirt = Content.Load<Texture2D>("dirt");
 
@@ -175,22 +193,100 @@ namespace Final_Game
                 {
                     MediaPlayer.Play(menuMusic);
                 }
-                mbeetrect.Width = 50;
-                mbeetrect.Height = 52;
-                mbeetle = mbeetledown1;
             }
             if (screen == Screen.L1)
             {
-                shalerects.Add(new Rectangle(300, 50, 50, 300));
-                shalerects.Add(new Rectangle(400, 50, 50, 300));
+                MediaState state = MediaPlayer.State;
+                if (state == MediaState.Stopped || state == MediaState.Paused)
+                {
+                    MediaPlayer.Play(gameAmb);
+                }
+
+                dirtrect = new Rectangle(0, 0, 0, 0);
+
+
+                mbeetrect.Width = 50;
+                mbeetrect.Height = 52;
+
+                mbeetrect2.Width = 50;
+                mbeetrect2.Height = 52;
+
+                mbeetle = mbeetledown1;
+
+                mbeetspeed.Y = 4;
+                if (mbeetrect.Y > 550)
+                {
+                    mbeetrect.Y = -50;
+                }
+                mbeetspeed2.Y = 4;
+                if (mbeetrect2.Y > 550)
+                {
+                    mbeetrect2.Y = -50;
+                }
+
+                shalerects.Add(new Rectangle(-50, 0, 50, 500));
+                shalerects.Add(new Rectangle(800, 0, 50, 500));
+                shalerects.Add(new Rectangle(0, -50, 800, 50));
+                shalerects.Add(new Rectangle(0, 500, 800, 50));
+
+                shalerects.Add(new Rectangle(300, 70, 50, 430));
+                shalerects.Add(new Rectangle(600, 0, 50, 430));
+            }
+            if (screen == Screen.Death)
+            {
+                MediaPlayer.Stop();
+                
+            }
+
+            if (beetrect.Intersects(dirtrect))
+            {
+                screen = Screen.Menu;
             }
             if (beetrect.Intersects(mbeetrect))
             {
+                hit.Play();
                 screen = Screen.Death;
             }
+            if (beetrect.Intersects(mbeetrect2))
+            {
+                hit.Play();
+                screen = Screen.Death;
+            }
+            if (beetrect.Intersects(tpRockr))
+            {
+                screen = Screen.Menu;
+            }
+
+            //C
+            // Store the original position
+            var originalPosition = beetrect.Location;
+
+            // Move on X axis
+            beetrect.X += (int)beetspeed.X;
+            bool collidedX = false;
             foreach (Rectangle shalerect in shalerects)
+            {
                 if (beetrect.Intersects(shalerect))
-                    beetrect.Offset(-beetspeed);
+                {
+                    // Undo X movement if collision
+                    beetrect.X = originalPosition.X;
+                    collidedX = true;
+                    break;
+                }
+            }
+
+            // Move on Y axis
+            beetrect.Y += (int)beetspeed.Y;
+            foreach (Rectangle shalerect in shalerects)
+            {
+                if (beetrect.Intersects(shalerect))
+                {
+                    // Undo Y movement if collision
+                    beetrect.Y = originalPosition.Y;
+                    break;
+                }
+            }
+
 
             if (mouseState.LeftButton == ButtonState.Pressed &&
                     prevMouseState.LeftButton == ButtonState.Released)
@@ -225,12 +321,47 @@ namespace Final_Game
                 }
             }
 
-            beetrect.X += (int)beetspeed.X;
-            beetrect.Y += (int)beetspeed.Y;
-
             mbeetrect.X += (int)mbeetspeed.X;
             mbeetrect.Y += (int)mbeetspeed.Y;
 
+            mbeetrect2.X += (int)mbeetspeed2.X;
+            mbeetrect2.Y += (int)mbeetspeed2.Y;
+
+            if (Playrect.Contains(mouseState.Position))
+            {
+                Playrect = new Rectangle(540, 115, 220, 95);
+            }
+            else
+            {
+                Playrect = new Rectangle(550, 125, 200, 75);
+            }
+            //Tutorial Button
+            if (Tutorialrect.Contains(mouseState.Position))
+            {
+                Tutorialrect = new Rectangle(520, 210, 240, 95);
+            }
+            else
+            {
+                Tutorialrect = new Rectangle(530, 220, 220, 75);
+            }
+            //Options Button
+            if (Optionsrect.Contains(mouseState.Position))
+            {
+                Optionsrect = new Rectangle(530, 305, 230, 95);
+            }
+            else
+            {
+                Optionsrect = new Rectangle(540, 315, 210, 75);
+            }
+            //Controls Button
+            if (Controlsrect.Contains(mouseState.Position))
+            {
+                Controlsrect = new Rectangle(530, 380, 230, 95);
+            }
+            else
+            {
+                Controlsrect = new Rectangle(540, 390, 210, 75);
+            }
             // If pacman is not moving make him sleep
             if (!keyboardState.IsKeyDown(Keys.Up) && !keyboardState.IsKeyDown(Keys.Right) && !keyboardState.IsKeyDown(Keys.Left) && !keyboardState.IsKeyDown(Keys.Down))
             {
@@ -258,11 +389,12 @@ namespace Final_Game
             }
             else if (screen == Screen.Death)
             {
-                
+                _spriteBatch.Draw(Play, Playrect, Color.White);
             }
             else if (screen == Screen.Start)
             {
                 _spriteBatch.Draw(tutmap, new Rectangle(0, 0, 800, 500), Color.White);
+                _spriteBatch.Draw(dirt, dirtrect, Color.White);
 
                 _spriteBatch.Draw(beetle, beetrect, Color.White);
             }
@@ -272,8 +404,10 @@ namespace Final_Game
 
                 foreach (Rectangle shalerect in shalerects)
                     _spriteBatch.Draw(shale, shalerect, Color.White);
+                _spriteBatch.Draw(tpRock, tpRockr, Color.White);
                 _spriteBatch.Draw(beetle, beetrect, Color.White);
                 _spriteBatch.Draw(mbeetledown1, mbeetrect, Color.White);
+                _spriteBatch.Draw(mbeetledown1, mbeetrect2, Color.White);
             }
             else if (screen == Screen.L2)
             {
