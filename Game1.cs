@@ -97,11 +97,11 @@ namespace Final_Game
 
             screen = Screen.Menu;
 
-            beetrect = new Rectangle(100, 250, 50, 50);
+            beetrect = new Rectangle(200, 210, 58, 50);
             beetspeed = new Vector2();
 
             mbeetrect = new Rectangle(600, -50, 10, 35);
-            mbeetrect2 = new Rectangle(300, -150, 10, 35);
+            mbeetrect2 = new Rectangle(300, -250, 10, 35);
             mbeetspeed = new Vector2();
             mbeetspeed2 = new Vector2();
 
