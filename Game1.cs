@@ -157,6 +157,7 @@ namespace Final_Game
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
             //Movement
             if (keyboardState.IsKeyDown(Keys.Up))
             {
@@ -194,7 +195,7 @@ namespace Final_Game
                     MediaPlayer.Play(menuMusic);
                 }
             }
-            //Play Screen
+            //Play Screen 1
             if (screen == Screen.L1)
             {
                 MediaState state = MediaPlayer.State;
@@ -206,7 +207,7 @@ namespace Final_Game
 
                 dirtrect = new Rectangle(0, 0, 0, 0);
 
-
+                //Enemy
                 mbeetrect.Width = 50;
                 mbeetrect.Height = 52;
 
