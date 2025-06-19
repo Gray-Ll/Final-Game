@@ -58,8 +58,9 @@ namespace Final_Game
         Texture2D Options;
         Rectangle Controlsrect;
         Texture2D Controls;
+        SpriteFont Revive;
 
-        Rectangle tutControls;
+        SpriteFont tutControls;
 
         //Background
         Texture2D cavernback;
@@ -98,7 +99,7 @@ namespace Final_Game
             screen = Screen.Menu;
 
             beetspeed = new Vector2();
-            beetrect = new Rectangle(200, 210, 58, 50);
+            beetrect = new Rectangle(420, 210, 58, 50);
 
             mbeetrect = new Rectangle(600, -50, 10, 35);
             mbeetrect2 = new Rectangle(300, -250, 10, 35);
@@ -198,11 +199,6 @@ namespace Final_Game
             //Play Screen 1
             if (screen == Screen.L1)
             {
-                MediaState state = MediaPlayer.State;
-                if (state == MediaState.Stopped || state == MediaState.Paused)
-                {
-                    MediaPlayer.Play(gameAmb);
-                }
 
                 dirtrect = new Rectangle(0, 0, 0, 0);
 
@@ -389,6 +385,7 @@ namespace Final_Game
             }
             else if (screen == Screen.Death)
             {
+                //Revive
                 _spriteBatch.Draw(Play, Playrect, Color.White);
             }
             else if (screen == Screen.Start)
